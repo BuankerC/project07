@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block body %}
+<div class="jumbotron jumbotron-fluid">
+    <div class="container">
+      <h1 class="display-4">{{movie.title}}</h1>
+      <p class="lead">관객수 : {{movie.audience}}</p>
+      <p class="lead">상세 설명 : {{movie.description}}</p>
+    </div>
+    {% for review in movie.reviews_set.all %}
+      <h5>
+        댓글:{{review.content}}: 평점:{{review.score}}
+        <form action="{% url 'movies:delete' movie.id review.id %}" method="POST">
+            {% csrf_token %}
+          {% if request.user == review.user_id %}
+            <input type="submit" value="댓글삭제">
+          {% endif %}
+        </form>
+      </h5>
+    {% endfor %}
+    {% if user.is_authenticated %}
+    <form action="{% url 'movies:new' movie.id %}" method="POST">
+        {% csrf_token %}
+      {{review_form}}
+      <input type="submit">
+    </form>
+    {% else %}
+      <h5>로그인하고와잇ㄲ</h5>
+    {% endif %}
+  </div>
+{% endblock %}
