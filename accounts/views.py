@@ -1,7 +1,9 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import login as auth_login
 from django.contrib.auth import logout as auth_logout
+from django.contrib.auth import get_user_model
+from django.conf import settings
 # Create your views here.
 
 def signup(request):
@@ -35,3 +37,20 @@ def login(request):
 def logout(request):
     auth_logout(request)
     return redirect('movies:index')
+
+def index(request):
+    User = get_user_model()
+    real_users = User.objects.all()
+    context = {
+        'real_users':real_users,
+    }
+    return render(request, 'accounts/index.html',context)
+
+def detail(request, id):
+    User = get_user_model()
+    user = get_object_or_404(User, id=id)
+    context = {
+        'user':user
+    }
+    return render(request, 'accounts/detail.html', context)
+

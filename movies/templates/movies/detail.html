@@ -6,6 +6,16 @@
       <p class="lead">관객수 : {{movie.audience}}</p>
       <p class="lead">상세 설명 : {{movie.description}}</p>
     </div>
+    {% if user.is_authenticated %}
+    <form action="{% url 'movies:like' movie.id %}" method="POST">
+      {% csrf_token %}
+      {% if user in movie.like_movies_user.all %}
+      <input type="submit" value="좋아요 취소">
+      {% else %}
+      <input type="submit" value="좋아요">
+      {% endif %}
+    </form>
+    {% endif %}
     {% for review in movie.reviews_set.all %}
       <h5>
         댓글:{{review.content}}: 평점:{{review.score}}
@@ -15,13 +25,6 @@
             <input type="submit" value="댓글삭제">
           {% endif %}
         </form>
-        {% if user.is_authenticated %}
-          {% if user in movie.likemoviesuser.user_id %}
-            <a href="">좋아요 취소</a>
-          {% else %}
-            <a href="">좋아요</a>
-          {% endif %}
-        {% endif %}
       </h5>
     {% endfor %}
     {% if user.is_authenticated %}

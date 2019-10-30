@@ -15,6 +15,8 @@
   <a href="{% url 'accounts:signup' %}">회원가입</a>
   <a href="{% url 'accounts:login' %}">로그인</a>
   {% endif %}
+  <a href="{% url 'accounts:index' %}">유저 목록</a>
+  <a href="{% url 'movies:index' %}">영화 목록</a>
   {% block body %}
 
   {% endblock %}

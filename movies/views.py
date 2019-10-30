@@ -38,3 +38,15 @@ def delete(request, movie_id, review_id):
         review = get_object_or_404(Reviews, id=review_id)
         review.delete()
     return redirect('movies:detail', movie_id)
+
+def like(request, id):
+    movie = get_object_or_404(Movie, id=id)
+    user = request.user
+    if request.method == 'POST':
+        if user in movie.like_movies_user.all():
+            movie.like_movies_user.remove(user)
+        else:
+            movie.like_movies_user.add(user)
+        return redirect('movies:detail', id)    
+    else:
+        pass

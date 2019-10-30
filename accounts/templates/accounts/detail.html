@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block body %}
+
+  <h1>{{user.username}}가 좋아하는 영화</h1>
+  {% for like_movie in user.like_movies.all %}
+    <h5>{{like_movie.title}}</h5>
+  {% endfor %}
+
+  <h1>{{user.username}}가 달았던 댓글</h1>
+  {% for review in user.reviews_set.all %}
+    <h5>영화제목:{{review.movie_id.title}} : {{review.content}} : {{review.score}}</h5>
+  {% endfor %}
+{% endblock %}
